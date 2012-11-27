@@ -13,7 +13,9 @@
     },
     "dependencies": {
         "browserify": ">= 1.16.5 < 2",
+        "glob": "~3",
         "mocha": "*",
+        "underscore": "~1.4",
         "winningjs-activator": "~1",
         "ws": "~0.4.23"
     },
