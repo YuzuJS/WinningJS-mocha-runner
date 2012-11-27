@@ -1,12 +1,14 @@
 ﻿(function () {
     "use strict";
 
+    var indirectEval = eval;
+
     WinJS.Application.start();
     mocha.setup({ ui: "bdd" });
     connect();
 
     function onDataReceived(data) {
-        eval(data);
+        indirectEval(data);
         mocha.run();
     }
 
