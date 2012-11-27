@@ -12,7 +12,10 @@
         "url": "http://github.com/NobleJS/WinningJS-mocha-runner/issues"
     },
     "dependencies": {
-        "mocha": "*"
+        "browserify": ">= 1.16.5 < 2",
+        "mocha": "*",
+        "winningjs-activator": "~1",
+        "ws": "~0.4.23"
     },
     "os": ["win32"]
 }
