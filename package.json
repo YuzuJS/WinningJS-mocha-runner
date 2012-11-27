@@ -17,5 +17,11 @@
         "winningjs-activator": "~1",
         "ws": "~0.4.23"
     },
+    "devDependencies": {
+        "jshint": ">= 0.9.1"
+    },
+    "scripts": {
+        "lint": "jshint lib"
+    },
     "os": ["win32"]
 }

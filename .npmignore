@@ -1,0 +1,13 @@
+# From .gitignore
+
+/node_modules/
+
+/src/bin/
+/src/bld/
+/src/*.jsproj.user
+/src/*.suo
+
+# Additional
+
+.npmignore
+.jshintrc
