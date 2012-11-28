@@ -1,21 +1,26 @@
 ﻿(function () {
     "use strict";
 
-    var indirectEval = eval;
+    var iframe = document.getElementById("iframe");
+    var iframeWindow = iframe.contentWindow;
 
-    WinJS.Application.start();
-    mocha.setup({ ui: "bdd" });
-    connect();
+    function runScriptInIframe(string) {
+        function onLoad() {
+            iframe.removeEventListener("load", onLoad);
 
-    function onDataReceived(data) {
-        indirectEval(data);
-        mocha.run();
-    }
+            iframeWindow.mocha.setup({ ui: "bdd" });
 
-    function reset() {
-        document.getElementById("mocha").innerHTML = "";
-        mocha.suite.tests = [];
-        mocha.suite.suites = [];
+            var scriptEl = iframeWindow.document.createElement("script");
+            MSApp.execUnsafeLocalFunction(function () {
+                scriptEl.innerHTML = string;
+            });
+            iframeWindow.document.body.appendChild(scriptEl);
+
+            iframeWindow.mocha.run();
+        }
+        
+        iframe.addEventListener("load", onLoad);
+        iframeWindow.location.reload(true);
     }
 
     function connect() {
@@ -32,7 +37,7 @@
         };
 
         connection.onmessage = function (ev) {
-            onDataReceived(ev.data);
+            runScriptInIframe(ev.data);
         };
     }
 
@@ -44,9 +49,10 @@
         isRetrying = true;
 
         setTimeout(function () {
-            reset();
             connect();
             isRetrying = false;
         }, 500);
     }
+
+    connect();
 }());
