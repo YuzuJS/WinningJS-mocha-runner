@@ -5,21 +5,32 @@
 
     <link rel="stylesheet" href="mocha.css" />
 
-    <!-- WinJS references -->
-    <link href="//Microsoft.WinJS.1.0/css/ui-light.css" rel="stylesheet" />
     <script src="//Microsoft.WinJS.1.0/js/base.js"></script>
     <script src="//Microsoft.WinJS.1.0/js/ui.js"></script>
-
-    <style>
-        /* Correct conflicts between Mocha and WinJS styles */
-        body {
-            box-sizing: border-box;
-        }
-    </style>
 </head>
 <body>
     <div id="mocha"></div>
 
     <script src="mocha.js"></script>
+    <script>
+        // Mocha detects us as IE8 and refuses to give us a nice `nextTick` shim.
+        process.nextTick = setImmediate.bind(window);
+
+        // Since Mocha handles uncaught errors (using `window.onerror`), don't let them crash the app.
+        process.on = function (event, listener) {
+            if (event === "uncaughtException") {
+                listener._adapted = function (ev) {
+                    listener(ev.detail);
+                    return true;
+                };
+                WinJS.Application.addEventListener("error", listener._adapted);
+            }
+        };
+        process.removeListener = function (event, listener) {
+            if (event === "uncaughtException") {
+                WinJS.Application.removeEventListener("error", listener._adapted);
+            }
+        };
+    </script>
 </body>
 </html>
