@@ -9,6 +9,7 @@
             iframe.removeEventListener("load", onLoad);
 
             iframeWindow.mocha.setup({ ui: "bdd" });
+            iframeWindow.mocha.ignoreLeaks = true;
 
             var scriptEl = iframeWindow.document.createElement("script");
             MSApp.execUnsafeLocalFunction(function () {
