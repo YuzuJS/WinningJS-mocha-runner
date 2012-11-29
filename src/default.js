@@ -1,12 +1,15 @@
 ﻿(function () {
     "use strict";
 
+    var socket = null;
     var iframe = document.getElementById("iframe");
     var iframeWindow = iframe.contentWindow;
 
     function runScriptInIframe(string) {
         function onLoad() {
             iframe.removeEventListener("load", onLoad);
+
+            iframeWindow.socket = socket;
 
             iframeWindow.mocha.setup({ ui: "bdd" });
             iframeWindow.mocha.ignoreLeaks = true;
@@ -25,19 +28,19 @@
     }
 
     function connect() {
-        var connection = new WebSocket("ws://localhost:8080");
+        socket = new WebSocket("ws://localhost:8080");
 
-        connection.onerror = function (error) {
+        socket.onerror = function (error) {
             console.error(error);
             retry();
         };
 
-        connection.onclose = function () {
+        socket.onclose = function () {
             console.log("WebSocket connection closed");
             retry();
         };
 
-        connection.onmessage = function (ev) {
+        socket.onmessage = function (ev) {
             runScriptInIframe(ev.data);
         };
     }
