@@ -23,4 +23,14 @@
             WinJS.Application.removeEventListener("error", listener._adapted);
         }
     };
+
+    ["log", "info", "warn", "error", "dir"].forEach(function (method) {
+        var original = console[method];
+        console[method] = function () {
+            var args = Array.prototype.slice.call(arguments);
+            window.socket.send(JSON.stringify(["console", method, args]));
+
+            return original.apply(console, arguments);
+        };
+    });
 }());
