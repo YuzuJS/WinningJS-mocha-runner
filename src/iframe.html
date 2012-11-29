@@ -17,6 +17,10 @@
         process.nextTick = setImmediate.bind(window);
 
         // Since Mocha handles uncaught errors (using `window.onerror`), don't let them crash the app.
+        WinJS.Application.addEventListener("error", function () {
+            return true;
+        });
+
         process.on = function (event, listener) {
             if (event === "uncaughtException") {
                 listener._adapted = function (ev) {
