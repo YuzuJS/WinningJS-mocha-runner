@@ -55,13 +55,14 @@
     </AppxManifest>
     <Content Include="default.html" />
     <Content Include="iframe.html" />
+    <Content Include="iframe.js" />
     <Content Include="images\logo.png" />
     <Content Include="images\smalllogo.png" />
     <Content Include="images\splashscreen.png" />
     <Content Include="images\storelogo.png" />
     <Content Include="..\node_modules\mocha\mocha.js" />
     <Content Include="..\node_modules\mocha\mocha.css" />
-    <Content Include="script.js" />
+    <Content Include="default.js" />
     <None Include="runner_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
