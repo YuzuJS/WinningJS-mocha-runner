@@ -13,6 +13,7 @@
     },
     "dependencies": {
         "browserify": ">= 1.16.5 < 2",
+        "commander": "*",
         "glob": "~3",
         "mocha": "*",
         "underscore": "~1.4",
