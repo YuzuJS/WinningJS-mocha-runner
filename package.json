@@ -1,5 +1,5 @@
 {
-    "name": "winningjs-mocha-runner",
+    "name": "WinningJS-mocha-runner",
     "description": "Runs Mocha tests inside a Windows 8 test harness",
     "version": "1.0.0",
     "author": "Domenic Denicola <domenic@domenicdenicola.com> (http://domenicdenicola.com)",
