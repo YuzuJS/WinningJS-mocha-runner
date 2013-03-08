@@ -5,6 +5,10 @@
     var iframe = document.getElementById("iframe");
     var iframeWindow = iframe.contentWindow;
 
+    // WebSocket status codes for private use - http://tools.ietf.org/html/rfc6455#section-7.4
+    var STATUS_TESTS_PASSED = 4000;
+    var STATUS_TESTS_FAILED = 4001;
+
     function runScriptInIframe(string) {
         function onLoad() {
             iframe.removeEventListener("load", onLoad);
@@ -20,9 +24,14 @@
             });
             iframeWindow.document.body.appendChild(scriptEl);
 
-            iframeWindow.mocha.run();
+            var runner = iframeWindow.mocha.run(function (failures) {
+                var message = ["stats", runner.stats];
+                socket.send(JSON.stringify(message));
+                var statusCode = runner.stats.failures === 0 ? STATUS_TESTS_PASSED : STATUS_TESTS_FAILED;
+                socket.close(statusCode, "Tests have finished running.");
+            });
         }
-        
+
         iframe.addEventListener("load", onLoad);
         iframeWindow.location.reload(true);
     }
